@@ -8,6 +8,6 @@ const app=express()
 
 app.use('/', serverStatic(path.join(__dirname, '/dist')))
 
-const port = process.env.PORT
+const port = process.env.PORT || 6000
 
 app.listen(port)
