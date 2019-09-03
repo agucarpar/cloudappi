@@ -1,0 +1,28 @@
+
+.wrapper-div{
+    display:flex;
+}
+
+.user-div{
+    margin: auto;
+    
+
+    
+}
+
+.new-user-btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button{
+    border: solid 1px black;
+    background-color:aliceblue;
+    border-radius: 20px;
+}
+
+ h1{
+   display: flex;
+ justify-content: center;
+ }
