@@ -6,7 +6,7 @@
             <div v-if="editUser===user.id">
                 <input v-model="user.name" /> 
                 <input v-model="user.email"/>
-                <button v-on:click="updateUser(user)">Save</button>
+                <button v-on:click="updateUser(user.id, user)">Save</button>
             </div>
             <div v-else>
                 <p>Name: {{user.name}} </p> 
@@ -24,11 +24,11 @@
         </div>
             <div v-if="newUser === true">
                 <input v-model="username" placeholder="Name of new user"/>
-                <input v-model="usermail" placeholder="Email of new User"/>
-                <input v-model="userid" placeholder="Id number"/>
+                <input v-model="email" placeholder="Email of new User"/>
+                <input v-model.number="id" placeholder="Id number"/>
                 
                 <div> 
-                    <button v-on:click="addUser(username, usermail, userid)">Save</button>
+                    <button v-on:click="addUser(username, email, id)">Save</button>
                 </div>   
             </div>
 </div>
@@ -48,7 +48,8 @@ export default {
         editUser: null,
         newUser:null,
         username:"",
-        usermail:"",
+        email:"",
+        id:"",
         userid:undefined,
         users:[],
         }
@@ -62,52 +63,61 @@ export default {
  
  methods:{
 
-    deleteUser(id, i, userid){
-        axios.get("https://my-user-manager.herokuapp.com/users/" + id, userid, {
-            method:"DELETE"
-        })
-        .then(()=>{
-            this.users.splice (i, 1); 
-            console.log(this.users) 
-        })
+    deleteUser(id, i){
+        
+        // console.log(this.users) 
+        // axios.delete(this.users + id, {
+        //     method:"DELETE"
+        // })
+        // .then(()=>{
+            this.users.splice (-1+i, 1); 
+            console.log(i) 
+        // })
     },
 
 
-    updateUser(user){
-        axios.get("https://my-user-manager.herokuapp.com/users/" + user.id, {
-            body:JSON.stringify(user),
-            method:"PUT",
-                headers:{
-                    "Content-Type": "application/json",
-                }
-            
-        })
+    updateUser(userid, user){
         
-        .then(()=>{
+       this.username= user.name
+       this.email= user.email 
+        
             this.editUser=null 
-        })
+    
     },
 
 
-    addUser(user, usermail, userid) {
-        this.users.push({'name': user},{'email':usermail})
-        this.username = "";
-        this.usermail= "",
-        this.userid=undefined,
+
+addUser() {
+        this.users.push({
+            name: this.username,
+            email: this.email,
+            id:this.id,
+                })
         this.newUser = false;
-        
+        console.log(this.users)
 
-      axios.get("https://my-user-manager.herokuapp.com/users/", {
-        body: JSON.stringify({'name' : user},{'mail' : usermail}),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
     },
+
+ 
 
    },
 }
+
+//  axios.get("https://my-user-manager.herokuapp.com/users" + user.id, {
+//             body:JSON.stringify(user),
+//             method:"PUT",
+//                 headers:{
+//                     "Content-Type": "application/json",
+//                 }
+//         })
+
+//  deleteUser(id, i, userid){
+//         axios.get("https://my-user-manager.herokuapp.com/users/" + id, userid, {
+//             method:"DELETE"
+//         })
+//         .then(()=>{
+//             this.users.splice (i, 1); 
+//             console.log(this.users) 
+//         })
+//     },
 </script>
-
-
